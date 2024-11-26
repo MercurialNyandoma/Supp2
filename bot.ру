@@ -3,7 +3,7 @@ from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, Callback
 import requests
 
 # Ваш токен Telegram
-TELEGRAM_TOKEN = 'ВАШ_ТОКЕН'
+TELEGRAM_TOKEN = '7607873691:AAGK7RR--dGY3vQleEB7vmUO7L-EPHeKjAY'
 
 # Пример API для запросов
 API_URL = 'https://jsonplaceholder.typicode.com/posts'  # Замените на свой API

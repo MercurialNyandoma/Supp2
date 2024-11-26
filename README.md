@@ -50,10 +50,10 @@
 </head>
 <body>
     <div class="Main">
-        <h1>Тестовое приложение</h1>
+        <h1>Добро Пожаловать!</h1>
         <img src="{{ url_for('static', filename='bot.png') }}" alt="123">
         <p></p>
-        <button class="btn">Кнопка</button>
+        <button class="btn">Подключить Аккаунт</button>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>

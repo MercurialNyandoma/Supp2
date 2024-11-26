@@ -1,0 +1,51 @@
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext
+import requests
+
+# Ваш токен Telegram
+TELEGRAM_TOKEN = 'ВАШ_ТОКЕН'
+
+# Пример API для запросов
+API_URL = 'https://jsonplaceholder.typicode.com/posts'  # Замените на свой API
+
+# Команда /start
+def start(update: Update, context: CallbackContext):
+    keyboard = [
+        [InlineKeyboardButton("Получить данные", callback_data='fetch_data')],
+        [InlineKeyboardButton("О боте", callback_data='about')]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    update.message.reply_text("Привет! Нажми кнопку, чтобы начать.", reply_markup=reply_markup)
+
+# Обработка нажатий кнопок
+def button_handler(update: Update, context: CallbackContext):
+    query = update.callback_query
+    query.answer()
+
+    if query.data == 'fetch_data':
+        # Отправка запроса к API
+        response = requests.get(API_URL)
+        if response.status_code == 200:
+            data = response.json()
+            # Отправляем пользователю первый результат
+            query.edit_message_text(f"Результат:\n{data[0]}")
+        else:
+            query.edit_message_text("Ошибка при запросе данных.")
+    elif query.data == 'about':
+        query.edit_message_text("Это бот для выполнения API-запросов.")
+
+# Основной обработчик
+def main():
+    updater = Updater(TELEGRAM_TOKEN, use_context=True)
+    dispatcher = updater.dispatcher
+
+    # Обработчики команд
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(CallbackQueryHandler(button_handler))
+
+    # Запуск бота
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
